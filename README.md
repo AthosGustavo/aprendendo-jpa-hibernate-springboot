@@ -1,23 +1,37 @@
 # Atualizacões sobre o estudo de jpa-hibernate
 
-## *Operação de SELECT*
- - EntityManager
 
-### Consultas com JPQL
+
+
+<details>
+<summary>Operação com SELECT</summary>
+
+## Consultas com JPQL
+ 
  - Linguagem de consulta orientada a objetos.
  - A sintaxe é similar ao SQL, mas ao invés de referência tabelas e colunas, é usado classes e atributos
 
+### Consultas com parâmetros
+```ruby
+String jpql = "SELECT nomeObjeto FROM Classe nomeObjeto WHERE nomeObjeto.atributo = :nomeAtributo"
+objetoEntityManager.createQuery(jpql, nomeClasse.class).setParameter("nomeAtributo", valorDesejado);
+```
+### Consultas sem parâmetros
+```ruby
 String jpql = "SELECT nomeObjeto FROM Classe nomeObjeto"
+```
  - createQuery
    - createQuery é um método de um objeto EntityManager
    - createQuery retorna um objeto
    - O objeto possui um método para retornar uma lista de resultados getResultList()
    - Outro para retornar um único resultado getSingleResult
  - Sintaxe createQuery
-   - createQuery(nomeVarialQuery, nomeClasse.class)
+   ```ruby
+    createQuery(nomeVarialQuery, nomeClasse.class)
+   ```
    - nomeClasse.class serve para sinalizar ao método o tipo da lista que será devolvido
 
-EXEMPLO
+#### EXEMPLO
 
 ```ruby
 public List<Produto> buscarTodos(){
@@ -32,11 +46,14 @@ public List<Produto> buscarTodos(){
 };
 ```
 
+```ruby
 List<Produto> todos = produtoDao.buscarTodos();
 
 todos.forEach(p -> System.out.println(p.getNome()));
-
-## *Operação de INSERT*
+```
+</details>
+<details>
+<summary>Operação de INSERT</summary>
 
 ### Método getTransaction()
 
@@ -54,11 +71,11 @@ getTransaction é um método da classe EntityManager, EntityManager é uma inter
  - commit()
     - Após realizar as operações no banco de dados,a transação deve ser finalizada com commit();
 
-## Método persist()
+### Método persist()
  - O método persist é usado para inserir um objeto no banco de dados
  - O método pertence ao objeto EntityManager
 
-### EXEMPLO
+#### EXEMPLO
 ```ruby
 public static void main(String[] args) {
 
@@ -88,3 +105,4 @@ public static void main(String[] args) {
 
 #### Método getTransaction em operações de SELECT
 Em operações de SELECT não é necessário iniciar ou commitar uma transação, pois não foi feito modificações no banco de dados.
+</details>
