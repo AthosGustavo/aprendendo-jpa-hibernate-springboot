@@ -1,6 +1,138 @@
 # Atualizacões sobre o estudo de jpa-hibernate
 
 <details>
+<summary>Entidades</summary>
+
+<details>
+<summary>Mapeando relacionamento</summary>
+
+ ### ManyToOne
+ 
+ - Ao sinalizar que um atributo da classe produto será do tipo categoria, o hibernate identifica a ocorrência de um relacionamento.Após isso é necessário sinalizar a cima do atributo a cardinalidade do relacionamento(@ManyToOne).
+
+```ruby
+@Entity
+@Table(name = "produtos")
+public class Produto {
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+private String nome;
+private String descricao;
+private BigDecimal preco;
+private LocalDate dataCadastro = LocalDate.now();
+	
+@ManyToOne
+private Categoria categoria;
+```
+
+```ruby
+@Entity
+@Table(name = "categorias")
+public class Categoria {
+	
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+private String nome;
+	
+```
+### ManyToMany
+
+ - Em um relacionamento ManyToMany que envolva uma terceira tabela intermediária, deve ser usada a anotação @JoinTable
+
+ - SINTAXE @JoinTable
+```ruby
+@JoinTable(name = "nome_terceira_tabela",
+joinColumns = @JoinColumn(name = nome da coluna que irá representar o lado palestra na terceira tabe; ("nome_id")),
+inverseJoinColumns = @JoinColumn(name = nome da coluna que irá representar o lado palestrante na terceira tabela;("nome_id"))
+```
+ - A anotação mappedBy é usado na outra classe para sinalizar onde o mapeamento foi declarado
+```ruby
+@ManytoMany(mappedBy = "nomeTabela")
+```
+#### EXEMPLO
+
+```ruby
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "palestra")
+public class Palestra {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "titulo")
+    private String titulo;
+
+    @ManyToMany
+    @JoinTable(name = "palestra_palestrante",
+               joinColumns = @JoinColumn(name = "palestra_id"),
+               inverseJoinColumns = @JoinColumn(name = "palestrante_id"))
+    private Set<Palestrante> palestrantes = new HashSet<>();
+
+}
+
+```
+
+```ruby
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "palestrante")
+public class Palestrante {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "nome")
+    private String nome;
+
+    @ManyToMany(mappedBy = "palestrantes")
+    private Set<Palestra> palestras = new HashSet<>();
+
+   
+}
+
+
+```
+
+
+temos a tabela pedidos, produtos e itens_pedidos em uma relação de muitos para muitos
+itens_pedidos é a tabela intermediária
+
+relacionamento bidirecional deve ser sinalizado
+
+
+
+Em resumo, ao usar mappedBy = "palestrantes", estamos indicando que o mapeamento do relacionamento Many-to-Many é definido na classe Palestra
+
+Isso permite que o Hibernate entenda como as tabelas e colunas estão interconectadas
+
+
+
+
+
+
+
+
+</details>
+
+
+ 
+</details>
+
+<details>
 <summary>Cíclo de vida de uma entidade</summary>
 
 ![cicli-de-vida-hibernate-3](https://github.com/AthosGustavo/jpa-hibernate/assets/112649935/0f224cdd-acf1-4e0e-938f-59ed413560ea)
