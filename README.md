@@ -1,6 +1,21 @@
 # Atualizacões sobre o estudo de jpa-hibernate
 
+<details>
+<summary>Cíclo de vida de uma entidade</summary>
 
+![cicli-de-vida-hibernate-3](https://github.com/AthosGustavo/jpa-hibernate/assets/112649935/0f224cdd-acf1-4e0e-938f-59ed413560ea)
+
+ - TRANSIENT: O estado TRANSIENT representa o momento queo objeto foi instância, porém não foi persistido, não foi inserido no banco
+
+ - MANAGED: Após persistir, o objeto passa para o estado MANAGED, gerenciado.Mesmo após persistido qualquer tipo de modificação feita antes do método flush ou commit, será aceito pelo objeto.
+ - FLUSH: O método flush serve para sincronizar os dados com o banco.É utilizado em situações onde uma determinada modificação não será feita de uma vez só.
+ - COMMIT: O método commit serve para sincronizar e confirmar as modificações.
+ - CLOSE: O método close/clear serve para encerrar a operação.Então qualquer tipo de modificação feita após esse método não será aplicada.
+ - MERGE: merge() volta uma entidade para  o estado de gerenciado.Isso permite remover e atualizar o objeto
+    - O método merge(entidade) devolve uma nova referência do objeto celulares para manager e não a sua referência original.Sendo assim é necessário atribuir a variável original para a variável recente.
+    - ``` variavelReferencia = objEntityManager.merge(variavelReferencia)```
+
+</details>
 
 
 <details>
@@ -11,12 +26,18 @@
  - Linguagem de consulta orientada a objetos.
  - A sintaxe é similar ao SQL, mas ao invés de referência tabelas e colunas, é usado classes e atributos
 
-### Consultas com parâmetros
+<details>
+<summary>Consultas com parâmetros</summary>summary
+
 ```ruby
 String jpql = "SELECT nomeObjeto FROM Classe nomeObjeto WHERE nomeObjeto.atributo = :nomeAtributo"
 objetoEntityManager.createQuery(jpql, nomeClasse.class).setParameter("nomeAtributo", valorDesejado);
 ```
-### Consultas sem parâmetros
+</details>
+
+<details>
+<summary>Consultas sem parâmetros</summary>
+
 ```ruby
 String jpql = "SELECT nomeObjeto FROM Classe nomeObjeto"
 ```
@@ -52,6 +73,33 @@ List<Produto> todos = produtoDao.buscarTodos();
 todos.forEach(p -> System.out.println(p.getNome()));
 ```
 </details>
+
+<details>
+<summary>Consultas utilizando .find()</summary>summary
+ - .find() é um método da interface EntityManager que permite buscar uma entidade por usa chave primária
+sintaxe do método.
+
+ ```ruby
+ objEntityManager.find(nomeClasse.Class, id);
+```
+
+#### EXEMPLO
+```ruby
+public Produto buscarPorId(Long id) {
+		return em.find(Produto.class, id);
+}
+
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("name persistence-unit");
+EntityManager em = emf.createEntityManager();
+
+ProdutoDao produtoDao = new ProdutoDao(em);
+Produto p = produtoDao.buscarPorId(1l);
+System.out.println(p.getPreco());
+```
+</details>
+
+</details>
+
 <details>
 <summary>Operação de INSERT</summary>
 
@@ -102,7 +150,16 @@ public static void main(String[] args) {
 }
 ```
 
-
 #### Método getTransaction em operações de SELECT
 Em operações de SELECT não é necessário iniciar ou commitar uma transação, pois não foi feito modificações no banco de dados.
+</details>
+
+<details>
+ <summary>Operação de DELETE</summary>
+ 
+ - Para remover um objeto, basta usar o método remove quando este objeto estiver no estado MANAGED
+ 
+ ```ruby
+objEntityManager.remove(nomeObjeto)
+```
 </details>
