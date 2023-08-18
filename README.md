@@ -1,4 +1,4 @@
-# Atualizacões sobre o estudo de jpa-hibernate
+S# Atualizacões sobre o estudo de jpa-hibernate
 
 <details>
 <summary>Entidades</summary>
@@ -294,4 +294,16 @@ Em operações de SELECT não é necessário iniciar ou commitar uma transação
  ```ruby
 objEntityManager.remove(nomeObjeto)
 ```
+</details>
+
+<details>
+<summary>Spring boot</summary>
+
+método post
+```ruby
+
+
+```
+
+ 
 </details>
