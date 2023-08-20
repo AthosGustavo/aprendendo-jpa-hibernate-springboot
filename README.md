@@ -1,4 +1,4 @@
-S# Atualizacões sobre o estudo de jpa-hibernate
+# Atualizacões sobre o estudo de jpa-hibernate
 
 <details>
 <summary>Entidades</summary>
@@ -299,11 +299,12 @@ objEntityManager.remove(nomeObjeto)
 <details>
 <summary>Spring boot</summary>
 
-método post
-```ruby
+<details>
+<summary>Método POST</summary>
 
-
-```
+pasta controller - onde ficam as requisições
+ 
+</details>
 
  
 </details>
