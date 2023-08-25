@@ -300,11 +300,161 @@ objEntityManager.remove(nomeObjeto)
 <summary>Spring boot</summary>
 
 <details>
-<summary>Método POST</summary>
+<summary>DTO e RECORD</summary>
 
-pasta controller - onde ficam as requisições
- 
+### DTO
+ - Usada na transferência de dados entre camadas.Nesse caso é utilizado no java para receber dados do front-end
+ - encapsulam os dados em formato de objeto
+  - Exemplo de como é utilizada uma DTO:
+No envio de dados de um formulario para o backend, a dto seria a classe que iria armazenar esses dados
+por esse motivo,a depender da regra de negocio,seus atributos sao imutaveis, ou seja, seus valores nao podem ser alterados apos envio
+
+#### Caracteristicas e usabilidade
+ - Utilizada na transferencia de dados
+ - Não possuem lógica de negócio
+
+#### Estrutura de uma DTO
+ - Possuem atributos e métodos construtores
+
+
+### RECORD
+ - O record foi criado para facilitar a declaracão de DTO`S. enquanto uma DTO é necessário declarar seus atributos no corpo da classe,
+uma classe record recebe os atributos no parâmetro da funcão e por de baixo dos panos faz os métodos get, set e entre outros.
+
+ - para acessar um atributo não é necessário sinalizar os get e set, além disso já reconhece os atributos como final
+ - Cria construtores automáticos com os atributos passados em parâmetro
+ - record aceitam métodos,atributos estaticos e também método estaticos
+
+#### Classe DTO sem RECORD
+
+```java
+public class PessoaDTO {
+    private String nome;
+    private int idade;
+
+    public PessoaDTO(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PessoaDTO pessoaDTO = (PessoaDTO) o;
+        return idade == pessoaDTO.idade && Objects.equals(nome, pessoaDTO.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, idade);
+    }
+
+    @Override
+    public String toString() {
+        return "PessoaDTO{" +
+                "nome='" + nome + '\'' +
+                ", idade=" + idade +
+                '}';
+    }
+}
+
+
+```
+
+#### Classe DTO com RECORD
+
+```java
+public record PessoaDTO(String nome, int idade) {}
+
+```
+
 </details>
 
- 
+<details>
+<summary>Metodo POST</summary>
+
+```java
+
+@RequestMapping("medicos") 
+public class MedicoController{
+
+   @PostMapping
+   public void cadastrar(@RequestBody String json){
+    System.out.println(json);
+  }
+}
+```
+
+@RestController
+- usada para marcar uma classe como um controlador 
+
+@RequestMapping
+- usada para sinalizar/ mapear metodos de um controlador.Define que todas as requisicoes feitas para um caminho (medicos) devem ser tratadas por esse controlador.
+
+- public class MedicoController
+classe do controlador.Contem os metodos que serao executados quando as requisicoes chegarem ao caminho mapeado
+- A classe controller e mapeada para a url medicos
+dentro da classe controller estaram contidos os metodos que utilizaram o endpoint medicos
+	
+@PostMapping
+- Usado para mapear métodos que respondem a requisições do tipo POST
+
+@RequestBody
+- Indica que o conteudo enviado no corpo de uma requisicao deve ser convertido para o tipo json
+essa anotacao é comumente usada em métodos post e put
+
+### EXEMPLO
+
+```java
+package med.voll.api.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@RestController
+@RequestMapping("medicos")
+public class MedicoController {
+
+        @PostMapping
+        public void cadastrar(@RequestBody DadosCadastroMedico dados) {
+              System.out.println(dados);
+    }
+
+}
+```
+```java
+package med.voll.api.medico;
+
+public record DadosCadastroMedico(String nome, String email, String crm) {
+}
+```
+
+- DadosCadastroMedico classe record que receberá os dados enviados do front-end
+
+persistencia dos dados
+
+repository
+dto
+entidade
 </details>
+
+
