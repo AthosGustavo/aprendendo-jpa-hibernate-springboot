@@ -402,10 +402,10 @@ public class MedicoController{
 }
 ```
 
-@RestController
+### @RestController
 - usada para marcar uma classe como um controlador 
 
-@RequestMapping
+### @RequestMapping
 - usada para sinalizar/ mapear metodos de um controlador.Define que todas as requisicoes feitas para um caminho (medicos) devem ser tratadas por esse controlador.
 
 - public class MedicoController
@@ -413,14 +413,14 @@ classe do controlador.Contem os metodos que serao executados quando as requisico
 - A classe controller e mapeada para a url medicos
 dentro da classe controller estaram contidos os metodos que utilizaram o endpoint medicos
 	
-@PostMapping
+### @PostMapping
 - Usado para mapear métodos que respondem a requisições do tipo POST
 
-@RequestBody
+### @RequestBody
 - Indica que o conteudo enviado no corpo de uma requisicao deve ser convertido para o tipo json
 essa anotacao é comumente usada em métodos post e put
 
-### EXEMPLO
+#### EXEMPLO
 
 ```java
 package med.voll.api.controller;
@@ -450,11 +450,171 @@ public record DadosCadastroMedico(String nome, String email, String crm) {
 
 - DadosCadastroMedico classe record que receberá os dados enviados do front-end
 
-persistencia dos dados
+Concluindo o método post com repository
+Para finalizar o método post, basta realizar a injeção de dependências com repository
+o código atualizado ficará da seguinte forma
 
-repository
-dto
-entidade
+### Interface repoitory
+ - Sintaxe: <Entidade, tipo-atributo-chave-primaria-entidade>
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MedicoRepository extends JpaRepository<Medico, Long>{
+}
+
+```
+ - Método construtor feito para receber os dados como parâmetro
+
+```java
+public Medico(DadosCadastroMedico dados){
+  this.nome = dados.nome();
+  this.email = dados.email();
+  this.crm = dados.crm();
+
+}
+	
+```
+
+```java
+package med.voll.api.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@RestController
+@RequestMapping("medicos")
+public class MedicoController {
+
+	@Autowired
+	private MedicoRepository repository
+
+	@PostMapping
+        public void cadastrar(@RequestBody DadosCadastroMedico dados) {
+              repository.save(new Medico(dados))
+    }
+
+}
+```
+
+======================================= EM EDIÇÃO ===============================
+
+interface repository
+public interface nomeInterface extends JpaRepository<nomEntidade, tipo atributo da chave primaria>
+
+
+flyway:migration
+
+a ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
+
+situações que migration é usada
+migration é usado em situações que pedem alterações no banco de dados após a criação do banco.
+exemplo:
+criação e exclusão de tabelas ou colunas
+correção de nomes e valores
+
+parâmetros do método @transactional
+
+injecao de dependencias
+autowired
+
+===============================================================================
+
+
+
+
+### Bean validation
+**Bean Validation é uma api de validação de entrada de dados**
+
+```
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.0.Final</version> <!-- Use a versão mais recente disponível -->
+</dependency>
+
+```
+
+Anotações de validação
+
+- @NotNull
+   -  usada para garantir que um campo não seja nulo
+- @Size
+   -  usada para verificar o tamanho de uma string,array e etc
+- @Email
+   - usada para verificar se o dado possui a formatação de um email
+- @Valid
+   - usado para ativar a validação de objetos em um método do controlador.Isso indica ao Spring que a validação deve ocorrer antes que o métdo do controlador seja executado.
+  
+
+#### EXEMPLO
+
+```java
+public class Usuario {
+    @NotNull
+    private String nome;
+
+    @Email
+    private String email;
+}
+
+```
+
+```java
+@RestController
+public class UsuarioController {
+
+    @PostMapping("/usuarios")
+    public ResponseEntity<String> cadastrarUsuario(@Valid @RequestBody Usuario usuario) {
+        // Lógica para cadastrar o usuário
+        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+    }
+}
+
+
+```
+
+@transactional
+se assemelha ao getTransaction utilizado na jpa com hibernate
+trata as operações como um átomo, para ser comitada, toda a operação deve ter sucesso, caso ocorrer erro em uma parte, toda a operação será cancelada e a opção de rollback será disponibilizada.
+
+além disso, em casos de erro, o rollback é executado de forma automárica.diferente do metodo getTransactional da JPA
+
+</details>
+
+<details>
+<summary>Método GET</summary>
+
+@GetMapping
+
+Como ja foi dito, a classe DTO é usada para transferir dados do front-end para o back-end e vice-versa
+o metodo findAll  devolve uma lista do tipo da Entidade e essa entidade deve ser convertida para uma DTO
+
+
+```java
+package med.voll.api.medico;
+
+public record DadosListagemMedico(String nome, String email, String crm, Especialidade especialidade) {
+
+    public DadosListagemMedico(Medico medico) {
+        this(medico.getNome(), medico.getEmail(), medico.getCrm(), medico.getEspecialidade());
+    }
+
+}
+
+```
+
+```java
+@GetMapping
+public List<DadosListagemMedicos> listar(){
+  return repository.findAll().stream.map(DadosListagemMedicos:: new).toList();
+}
+```
+
+public List<>
+ 
 </details>
 
 
