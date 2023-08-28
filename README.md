@@ -304,11 +304,17 @@ objEntityManager.remove(nomeObjeto)
 @NoArgsConstrutor
 @AllArgsConstructor
 
+ mysql
  <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
       <scope>runtime</scope>
 </dependency>
+
+spring.datasource.url=jdbc:mysql://localhost:3306/nomeDataBase
+spring.datasource.username=nomeUsuario
+spring.datasource.password=senhaUsuario
+
 
 
 
