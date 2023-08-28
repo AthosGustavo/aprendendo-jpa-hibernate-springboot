@@ -299,6 +299,21 @@ objEntityManager.remove(nomeObjeto)
 <details>
 <summary>Spring boot</summary>
 
+@Embbeded
+@Getter
+@NoArgsConstrutor
+@AllArgsConstructor
+
+ <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <scope>runtime</scope>
+</dependency>
+
+
+
+
+
 <details>
 <summary>DTO e RECORD</summary>
 
