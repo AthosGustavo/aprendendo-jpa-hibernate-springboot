@@ -306,7 +306,8 @@ objEntityManager.remove(nomeObjeto)
 
 
  mysql
- <dependency>
+```
+<dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
       <scope>runtime</scope>
@@ -315,14 +316,17 @@ objEntityManager.remove(nomeObjeto)
 spring.datasource.url=jdbc:mysql://localhost:3306/nomeDataBase
 spring.datasource.username=nomeUsuario
 spring.datasource.password=senhaUsuario
-
+```
 
 h2
+ ```
  <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
 </dependency>
+
+```
 
 configuração no arquivo application.properties
 
