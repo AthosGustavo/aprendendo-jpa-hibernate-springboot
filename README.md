@@ -304,6 +304,7 @@ objEntityManager.remove(nomeObjeto)
 @NoArgsConstrutor
 @AllArgsConstructor
 
+
  mysql
  <dependency>
       <groupId>com.mysql</groupId>
@@ -315,6 +316,29 @@ spring.datasource.url=jdbc:mysql://localhost:3306/nomeDataBase
 spring.datasource.username=nomeUsuario
 spring.datasource.password=senhaUsuario
 
+
+h2
+ <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+</dependency>
+
+configuração no arquivo application.properties
+
+```
+spring:
+ datasource:
+  url:jdbc:h2:mem:mydb
+  username: nomeUsuario
+  password: senhaUsuario
+  driverClassName: org.h2.Driver
+jpa:
+  spring.jpa.database.platform:org.hibernate.dialect.H2Dialect
+h2:
+  console.enable:true		//ativa o acesso do banco ao navegador
+
+```
 
 
 
