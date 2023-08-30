@@ -6,6 +6,71 @@
 <details>
 <summary>Mapeando relacionamento</summary>
 
+ ### Relacionamento OneToMany - ManyToOne
+
+ Iremos relacionar as entidades professor e disciplina
+  - 1 professor pode estar associado a várias disciplínas
+  - 1 disciplína pode estar associada apenas a um professor
+
+```java
+public class Disciplina(){
+
+   private Long id
+   private String nome
+   private Integer semestre
+
+   @ManyToOne   //ler-se:várias classe disciplinas pode estar associado a um professor
+   private Professor professor
+}
+
+```
+
+```java
+public class Professor(){
+
+   private Long Id
+   private String nome
+
+   @OneToMany   //ler-se:uma classe professor pode ter várias classe disciplina
+   private List<Disciplinas> listaDisciplinas;
+}
+
+```
+
+ - Após rodar a aplicação, o spring detecta um relacionamento e cria automaticamente uma tabela de associação,exemplo: professor_disciplina.
+
+   - Caso o objetivo não seja esse,podemos sinalizar outro modo de relacionamento para o spring não for o objetivo,fazer a anotação @JoinColum
+
+   - Além disso,a declaração do mapeamento sempre será feito no lado Many e o mapped será declarado no lado One
+
+```java
+public class Disciplina(){
+
+   private Long id
+   private String nome
+   private Integer semestre
+
+   @ManyToOne   //ler-se:várias classe disciplinas pode estar associado a um professor
+   @JoinColumn(name = "professor_id")	//professor_id será a coluna que fará referência a chave primária da tabela professor. chave (estrangeira: professor_id)
+   private Professor professor
+}
+
+```
+
+```java
+public class Professor(){
+
+   private Long Id
+   private String nome
+
+   @OneToMany(mappedBy = "professor")
+   private List<Disciplinas> listaDisciplinas;
+}
+
+```
+
+ 
+ 
  ### ManyToOne
  
  - Ao sinalizar que um atributo da classe produto será do tipo categoria, o hibernate identifica a ocorrência de um relacionamento.Após isso é necessário sinalizar a cima do atributo a cardinalidade do relacionamento(@ManyToOne).
