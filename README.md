@@ -4,6 +4,23 @@
 <summary>Entidades</summary>
 
 <details>
+<summary>Anotções da JPA</summary>
+
+**@Entity**
+ - Usada para marcar uma classe como uma entidade persistente.
+
+**@Table(name = "nome da tabela no banco")**
+ - Especifica detalhes sobre a tabela do banco de dados à qual a entidade está mapeada, como o nome da tabela, esquema, etc.
+
+**@Id**
+ - Marca um campo como a chave primária da entidade.
+
+**@GeneratedValue(strategy = GenerationType.IDENTITY)**
+ - Anotação para sinalizar um atibuto como autoincremento para a tabela
+
+</details>
+
+<details>
 <summary>Mapeando relacionamento</summary>
 
  ### Relacionamento OneToMany - ManyToOne
