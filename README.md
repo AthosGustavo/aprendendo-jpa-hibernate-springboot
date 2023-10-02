@@ -364,6 +364,26 @@ objEntityManager.remove(nomeObjeto)
 <details>
 <summary>Spring boot</summary>
 
+<details>
+<summary>Configurando o arquivo pom.xml</summary>
+Spring Boot DevTools
+ - A dependência permiti fazer alterações no projeto sem a necessidade de reiniciar o servidor.Na IDE intellij ainda é necessári fazer uma configuracão no sistema.
+
+Lombok
+ - Permiti diminuir a declaração de códigos a partir de anotações.
+
+Spring Web
+ - Um série de dependênias abstratas que peritem desenvolver uma aplicação web contendo servidor, requisições e segurança.
+
+Spring Data JPA
+ - simplifica a interação com bancos de dados relacionais
+ - introduz o conceito de repositórios, que são interfaces Java que definem métodos para acessar o banco de dados.
+
+Conector mysql
+ - permiti o java se conectar com o banco de dados mysql atraves do seu driver
+
+</details>
+
 @Embbeded
 @Getter
 @NoArgsConstrutor
