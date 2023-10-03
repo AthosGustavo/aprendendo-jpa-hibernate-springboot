@@ -1,4 +1,4 @@
-# Atualizacões sobre o estudo de jpa-hibernate
+# Atualizacões sobre o estudo de jpa-hibernate e Spring boot
 
 <details>
 <summary>Entidades</summary>
