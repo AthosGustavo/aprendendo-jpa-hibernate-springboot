@@ -404,6 +404,28 @@ objEntityManager.remove(nomeObjeto)
 
 <details>
 <summary>Configurando o arquivo application.properties</summary>
+
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/nomeDoSchema
+spring.datasource.username=nomeUsuario
+spring.datasource.password=senhaUsuario
+spring.jpa.hibernate.ddl-auto=update
+
+```
+
+Configurando a propriedade spring.jpa.hibernate.ddl-auto
+**create**
+ - cria as tabelas no banco de dados sempre que o aplicativo for iniciado.
+
+**update**
+ - atualiza automaticamente o esquema do banco de dados sempre que há uma diferença entre o modelo de dados definido nas classes Java e o esquema real do banco de dados. Ele não recria as tabelas, mas pode adicionar, alterar ou excluir colunas.
+
+**validade**
+ - valida o esquema do banco de dados em relação às classes de entidade definidas, mas não faz alterações no banco de dados. Se houver alguma diferença entre o esquema do banco de dados e as classes de entidade, uma exceção será lançada.
+
+**none**
+ - desabilita completamente a geração e atualização automáticas de esquema pelo Hibernate. 
+
 </details>
 
 <details>
@@ -421,58 +443,10 @@ objEntityManager.remove(nomeObjeto)
 
 </details>
 
-<details>
-<summary></summary>
-</details>
-
 @Embbeded
 @Getter
 @NoArgsConstrutor
 @AllArgsConstructor
-
-
- mysql
-```
-<dependency>
-      <groupId>com.mysql</groupId>
-      <artifactId>mysql-connector-j</artifactId>
-      <scope>runtime</scope>
-</dependency>
-
-spring.datasource.url=jdbc:mysql://localhost:3306/nomeDataBase
-spring.datasource.username=nomeUsuario
-spring.datasource.password=senhaUsuario
-```
-
-h2
- ```
- <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-</dependency>
-
-```
-
-configuração no arquivo application.properties
-
-```
-spring:
- datasource:
-  url:jdbc:h2:mem:mydb
-  username: nomeUsuario
-  password: senhaUsuario
-  driverClassName: org.h2.Driver
-jpa:
-  spring.jpa.database.platform:org.hibernate.dialect.H2Dialect
-h2:
-  console.enable:true		//ativa o acesso do banco ao navegador
-
-```
-
-
-
-
 
 <details>
 <summary>DTO e RECORD</summary>
