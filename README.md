@@ -439,14 +439,15 @@ Configurando a propriedade spring.jpa.hibernate.ddl-auto
 **@Setter**
  - Anotação usada para gerar automaticamente os setter dos atributos
 
-*Obs: as anotações são colocadas em cima dos atributos*
+**@NoArgsConstructor**
+ - Anotação usada para criar um construtor padrão sem argumentos para entidade
+
+**AllArgsConstructor**
+ - Anotação usada para criar um construtor com todos os argumentos
 
 </details>
 
 @Embbeded
-@Getter
-@NoArgsConstrutor
-@AllArgsConstructor
 
 <details>
 <summary>DTO e RECORD</summary>
@@ -566,8 +567,7 @@ dentro da classe controller estaram contidos os metodos que utilizaram o endpoin
 - Usado para mapear métodos que respondem a requisições do tipo POST
 
 ### @RequestBody
-- Indica que o conteudo enviado no corpo de uma requisicao deve ser convertido para o tipo json
-essa anotacao é comumente usada em métodos post e put
+ - O metodo cadastrar recebe um variável no parâmetro que representará os dados no corpo da requisição, no entanto o spring não sabe disso e é necessário usar esaa anotação para sinalizar.
 
 #### EXEMPLO
 
