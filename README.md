@@ -656,6 +656,10 @@ public interface nomeInterface extends JpaRepository<nomEntidade, tipo atributo 
 
 flyway:migration
 
+para utilizar uma migration é necessário importar as suas dependencias no spring initializr
+
+db.migration é a pasta onde ficará guardado o arquivo .sql com a query 
+
 a ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
 
 situações que migration é usada
