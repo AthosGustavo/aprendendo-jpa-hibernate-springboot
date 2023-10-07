@@ -668,7 +668,7 @@ exemplo:
 criação e exclusão de tabelas ou colunas
 correção de nomes e valores
 
-parâmetros do método @transactional
+
 
 injecao de dependencias
 autowired
