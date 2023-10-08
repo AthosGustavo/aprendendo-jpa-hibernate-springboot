@@ -792,5 +792,16 @@ public void atualizarInfo(DadosAtualizaAluno dados) {
 ```
 
 </details>
+<details>
+<summary>Método DELETE</summary>
+
+```java
+@DeleteMapping("/{id}")
+  public void excluir(@PathVariable Long id){
+  alunoRepository.deleteById(id);
+}
+```
+
+</details>
 
 
