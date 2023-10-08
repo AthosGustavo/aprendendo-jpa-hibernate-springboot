@@ -676,22 +676,13 @@ migration é usado em situações que pedem alterações no banco de dados após
  - Para utilizar uma migration é necessário importar as suas dependencias no spring initializr
  - db.migration é a pasta onde ficará guardado o arquivo .sql com a query
  - dentro do arquivo sql vai a query
+ - Para criar uma nova migration, basta criar um novo arquivo .sql dentro da pasta
+ - OBS:Antes de realizar uma migration,é necessário parar o servidor.
 </details>
 
-
-
-
-
-
-
-injecao de dependencias
-autowired
-
-===============================================================================
-<details>
 <summary>Bean validation</summary>
 
-**Bean Validation é uma api de validação de entrada de dados**
+### Bean Validation é uma api de validação de entrada de dados
 
 ```
 <dependency>
@@ -702,7 +693,7 @@ autowired
 
 ```
 
-Anotações de validação
+**Anotações de validação**
 
 - @NotNull
    -  usada para garantir que um campo não seja nulo
@@ -712,6 +703,8 @@ Anotações de validação
    - usada para verificar se o dado possui a formatação de um email
 - @Valid
    - usado para ativar a validação de objetos em um método do controlador.Isso indica ao Spring que a validação deve ocorrer antes que o métdo do controlador seja executado.
+- @NotBlank
+   - o campo nao deve ser vazio e nem nulo.usado em campos string
   
 
 #### EXEMPLO
@@ -726,9 +719,6 @@ public class Usuario {
 }
 
 ```
-
-</details>
-
 ```java
 @RestController
 public class UsuarioController {
@@ -742,6 +732,7 @@ public class UsuarioController {
 
 
 ```
+</details>
 
 </details>
 
@@ -776,6 +767,30 @@ public List<DadosListagemMedicos> listar(){
 
 public List<>
  
+</details>
+
+<details>
+<summary>Método PUT</summary>
+
+```java
+@PutMapping
+@Transactional
+public void atualizar(@RequestBody DadosAtualizaAluno dados){
+  var aluno = alunoRepository.getReferenceById(dados.idAluno());
+  aluno.atualizarInfo(dados);
+}
+```
+```java
+public void atualizarInfo(DadosAtualizaAluno dados) {
+
+  if(dados.idadeAluno() > 0){
+    this.idadeAluno = dados.idadeAluno();
+  }
+  if(dados.nomeAluno() != null) this.nomeAluno = dados.nomeAluno();
+
+}
+```
+
 </details>
 
 
