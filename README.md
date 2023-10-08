@@ -647,26 +647,37 @@ public class MedicoController {
 
 }
 ```
+**@transactional**
+ - Assemelha-se ao getTransaction utilizado na jpa com hibernate
+ - A anotação deve ser colocada a cima da anotação @PutMapping ou @PostMapping
+ - trata as operações como um átomo, para ser comitada, toda a operação deve ter sucesso, caso ocorrer erro em uma parte, toda a operação será cancelada e a opção de rollback será disponibilizada.Além disso, em casos de erro, o rollback é executado de forma automárica.diferente do metodo getTransactional da JPA
 
-======================================= EM EDIÇÃO ===============================
 
 interface repository
 public interface nomeInterface extends JpaRepository<nomEntidade, tipo atributo da chave primaria>
 
+<details>
+<summary>Flyway:migration</summary>
+### Flyway
 
-flyway:migration
+A ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
 
-para utilizar uma migration é necessário importar as suas dependencias no spring initializr
+**Situações que migration é usada**
 
-db.migration é a pasta onde ficará guardado o arquivo .sql com a query 
+migration é usado em situações que pedem alterações no banco de dados após a criação do banco, exemplo:
+ - criação e exclusão de tabelas ou colunas
+ - correção de nomes e valores
+ 
+**Passo a passo**
+ 
+ - Para utilizar uma migration é necessário importar as suas dependencias no spring initializr
+ - db.migration é a pasta onde ficará guardado o arquivo .sql com a query
+ - dentro do arquivo sql vai a query
+</details>
 
-a ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
 
-situações que migration é usada
-migration é usado em situações que pedem alterações no banco de dados após a criação do banco.
-exemplo:
-criação e exclusão de tabelas ou colunas
-correção de nomes e valores
+
+
 
 
 
@@ -674,11 +685,9 @@ injecao de dependencias
 autowired
 
 ===============================================================================
+<details>
+<summary>Bean validation</summary>
 
-
-
-
-### Bean validation
 **Bean Validation é uma api de validação de entrada de dados**
 
 ```
@@ -715,6 +724,8 @@ public class Usuario {
 
 ```
 
+</details>
+
 ```java
 @RestController
 public class UsuarioController {
@@ -728,12 +739,6 @@ public class UsuarioController {
 
 
 ```
-
-@transactional
-se assemelha ao getTransaction utilizado na jpa com hibernate
-trata as operações como um átomo, para ser comitada, toda a operação deve ter sucesso, caso ocorrer erro em uma parte, toda a operação será cancelada e a opção de rollback será disponibilizada.
-
-além disso, em casos de erro, o rollback é executado de forma automárica.diferente do metodo getTransactional da JPA
 
 </details>
 
