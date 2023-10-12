@@ -535,6 +535,33 @@ public record PessoaDTO(String nome, int idade) {}
 
 ```
 
+#### Particularidades da classe Record
+ - Em uma classe record as variaveis passadas no parâmetro representam ao mesmo tempo os atributos da classe.
+ - Além disso, a classe record é ao mesmo tempo um construtor padrao, basta observar a sua sintaxe.
+ - Valores no parâmetro: Ao mesmo tempo sao atributos e variáveis.
+ - Devido ao fato da classe ja ser um construtor, apenas é permitido criar outro construtor que declare e utilize os mesmo valores do construtor padrao.
+
+**Casos em que será preciso iniciar o construtor com valores diferentes**
+ - O Construtor recebe apenas variáveis e não objeto
+    - Nesse caso cria-se um novo construtor que recebe o objeto
+    - Usa-se o com parenteses para fazer referencia a todos os atributos/variaveis da classe record this()
+    - Dentro do parenteses acessamos cada variavel atraves da notacao "objeto.getAtributo".
+
+```java
+public record getClienteDTO(String nomeCliente, String emailCliente, String telCliente, String enderecoCliente) {
+
+  public getClienteDTO(Cliente cliente) {
+    //Estrategia:construtor de chamada
+    this(cliente.getNomeCliente(),cliente.getEmailCliente(),cliente.getTelCliente(),cliente.getEnderecoCliente());
+
+  }
+}
+```
+*Explicação*
+ - Nesse caso cria-se um novo construtor que recebe o objeto
+ - Usa-se o this() com parenteses para fazer referencia a todos os atributos/variaveis da classe record
+ - Dentro do parenteses do this acessamos cada variavel atraves da notacao "objeto.getAtributo".
+
 </details>
 
 <details>
