@@ -836,7 +836,7 @@ migration é usado em situações que pedem alterações no banco de dados após
 
 - @AssertTrue e @AssertFalse: Verificam se uma expressão booleana é verdadeira ou falsa.
 
-- @Valid: Usada em campos aninhados para indicar que a validação deve ser aplicada a objetos dentro do objeto principal.
+- @Valid: Usado para habilitar a validação no objeto enviado no corpo da solicitação.
 
 #### EXEMPLO
 
