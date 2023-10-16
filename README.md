@@ -447,122 +447,6 @@ Configurando a propriedade spring.jpa.hibernate.ddl-auto
 
 </details>
 
-@Embbeded
-
-<details>
-<summary>DTO e RECORD</summary>
-
-### DTO
- - Usada na transferência de dados entre camadas.Nesse caso é utilizado no java para receber dados do front-end
- - encapsulam os dados em formato de objeto
-  - Exemplo de como é utilizada uma DTO:
-No envio de dados de um formulario para o backend, a dto seria a classe que iria armazenar esses dados
-por esse motivo,a depender da regra de negocio,seus atributos sao imutaveis, ou seja, seus valores nao podem ser alterados apos envio
-
-#### Caracteristicas e usabilidade
- - Utilizada na transferencia de dados
- - Não possuem lógica de negócio
-
-#### Estrutura de uma DTO
- - Possuem atributos e métodos construtores
-
-
-### RECORD
- - O record foi criado para facilitar a declaracão de DTO`S. enquanto uma DTO é necessário declarar seus atributos no corpo da classe,
-uma classe record recebe os atributos no parâmetro da funcão e por de baixo dos panos faz os métodos get, set e entre outros.
-
- - para acessar um atributo não é necessário sinalizar os get e set, além disso já reconhece os atributos como final
- - Cria construtores automáticos com os atributos passados em parâmetro
- - record aceitam métodos,atributos estaticos e também método estaticos
-
-#### Classe DTO sem RECORD
-
-```java
-public class PessoaDTO {
-    private String nome;
-    private int idade;
-
-    public PessoaDTO(String nome, int idade) {
-        this.nome = nome;
-        this.idade = idade;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PessoaDTO pessoaDTO = (PessoaDTO) o;
-        return idade == pessoaDTO.idade && Objects.equals(nome, pessoaDTO.nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nome, idade);
-    }
-
-    @Override
-    public String toString() {
-        return "PessoaDTO{" +
-                "nome='" + nome + '\'' +
-                ", idade=" + idade +
-                '}';
-    }
-}
-
-
-```
-
-#### Classe DTO com RECORD
-
-```java
-public record PessoaDTO(String nome, int idade) {}
-
-```
-
-#### Particularidades da classe Record
- - Em uma classe record as variaveis passadas no parâmetro representam ao mesmo tempo os atributos da classe.
- - Além disso, a classe record é ao mesmo tempo um construtor padrao, basta observar a sua sintaxe.
- - Valores no parâmetro: Ao mesmo tempo sao atributos e variáveis.
- - Devido ao fato da classe ja ser um construtor, apenas é permitido criar outro construtor que declare e utilize os mesmo valores do construtor padrao.
-
-**Casos em que será preciso iniciar o construtor com valores diferentes**
- - O Construtor recebe apenas variáveis e não objeto
-    - Nesse caso cria-se um novo construtor que recebe o objeto
-    - Usa-se o com parenteses para fazer referencia a todos os atributos/variaveis da classe record this()
-    - Dentro do parenteses acessamos cada variavel atraves da notacao "objeto.getAtributo".
-
-```java
-public record getClienteDTO(String nomeCliente, String emailCliente, String telCliente, String enderecoCliente) {
-
-  public getClienteDTO(Cliente cliente) {
-    //Estrategia:construtor de chamada
-    this(cliente.getNomeCliente(),cliente.getEmailCliente(),cliente.getTelCliente(),cliente.getEnderecoCliente());
-
-  }
-}
-```
-*Explicação*
- - Nesse caso cria-se um novo construtor que recebe o objeto
- - Usa-se o this() com parenteses para fazer referencia a todos os atributos/variaveis da classe record
- - Dentro do parenteses do this acessamos cada variavel atraves da notacao "objeto.getAtributo".
-
-</details>
 
 <details>
 <summary>Metodo POST</summary>
@@ -682,87 +566,7 @@ public class MedicoController {
 
 interface repository
 public interface nomeInterface extends JpaRepository<nomEntidade, tipo atributo da chave primaria>
-
-<details>
-<summary>Flyway:migration</summary>
-
-
-### Flyway
-
-
-A ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
-
-**Situações que migration é usada**
-
-migration é usado em situações que pedem alterações no banco de dados após a criação do banco, exemplo:
- - criação e exclusão de tabelas ou colunas
- - correção de nomes e valores
- 
-**Passo a passo**
- 
- - Para utilizar uma migration é necessário importar as suas dependencias no spring initializr
- - db.migration é a pasta onde ficará guardado o arquivo .sql com a query
- - dentro do arquivo sql vai a query
- - Para criar uma nova migration, basta criar um novo arquivo .sql dentro da pasta
- - OBS:Antes de realizar uma migration,é necessário parar o servidor.
 </details>
-
-<summary>Bean validation</summary>
-
-### Bean Validation é uma api de validação de entrada de dados
-
-```
-<dependency>
-    <groupId>org.hibernate.validator</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>6.2.0.Final</version> <!-- Use a versão mais recente disponível -->
-</dependency>
-
-```
-
-**Anotações de validação**
-
-- @NotNull
-   -  usada para garantir que um campo não seja nulo
-- @Size
-   -  usada para verificar o tamanho de uma string,array e etc
-- @Email
-   - usada para verificar se o dado possui a formatação de um email
-- @Valid
-   - usado para ativar a validação de objetos em um método do controlador.Isso indica ao Spring que a validação deve ocorrer antes que o métdo do controlador seja executado.
-- @NotBlank
-   - o campo nao deve ser vazio e nem nulo.usado em campos string
-  
-
-#### EXEMPLO
-
-```java
-public class Usuario {
-    @NotNull
-    private String nome;
-
-    @Email
-    private String email;
-}
-
-```
-```java
-@RestController
-public class UsuarioController {
-
-    @PostMapping("/usuarios")
-    public ResponseEntity<String> cadastrarUsuario(@Valid @RequestBody Usuario usuario) {
-        // Lógica para cadastrar o usuário
-        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
-    }
-}
-
-
-```
-</details>
-
-</details>
-
 <details>
 <summary>Método GET</summary>
 
@@ -828,7 +632,240 @@ public void atualizarInfo(DadosAtualizaAluno dados) {
   alunoRepository.deleteById(id);
 }
 ```
+</details>
+
+
+
+
+@Embbeded
+
+<details>
+<summary>DTO e RECORD</summary>
+
+### DTO
+ - Usada na transferência de dados entre camadas.Nesse caso é utilizado no java para receber dados do front-end
+ - encapsulam os dados em formato de objeto
+  - Exemplo de como é utilizada uma DTO:
+No envio de dados de um formulario para o backend, a dto seria a classe que iria armazenar esses dados
+por esse motivo,a depender da regra de negocio,seus atributos sao imutaveis, ou seja, seus valores nao podem ser alterados apos envio
+
+#### Caracteristicas e usabilidade
+ - Utilizada na transferencia de dados
+ - Não possuem lógica de negócio
+
+#### Estrutura de uma DTO
+ - Possuem atributos e métodos construtores
+
+
+### RECORD
+ - O record foi criado para facilitar a declaracão de DTO`S. enquanto uma DTO é necessário declarar seus atributos no corpo da classe,
+uma classe record recebe os atributos no parâmetro da funcão e por de baixo dos panos faz os métodos get, set e entre outros.
+
+ - para acessar um atributo não é necessário sinalizar os get e set, além disso já reconhece os atributos como final
+ - Cria construtores automáticos com os atributos passados em parâmetro
+ - record aceitam métodos,atributos estaticos e também método estaticos
+
+#### Classe DTO sem RECORD
+
+```java
+public class PessoaDTO {
+    private String nome;
+    private int idade;
+
+    public PessoaDTO(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PessoaDTO pessoaDTO = (PessoaDTO) o;
+        return idade == pessoaDTO.idade && Objects.equals(nome, pessoaDTO.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, idade);
+    }
+
+    @Override
+    public String toString() {
+        return "PessoaDTO{" +
+                "nome='" + nome + '\'' +
+                ", idade=" + idade +
+                '}';
+    }
+}
+
+
+```
+
+#### Classe DTO com RECORD
+
+```java
+public record PessoaDTO(String nome, int idade) {}
+
+```
+
+#### Particularidades da classe Record
+ - Em uma classe record as variaveis passadas no parâmetro representam ao mesmo tempo os atributos da classe.
+ - Além disso, a classe record é ao mesmo tempo um construtor padrao, basta observar a sua sintaxe.
+ - Valores no parâmetro: Ao mesmo tempo sao atributos e variáveis.
+ - Devido ao fato da classe ja ser um construtor, apenas é permitido criar outro construtor que declare e utilize os mesmo valores do construtor padrao.
+
+**Casos em que será preciso iniciar o construtor com valores diferentes**
+ - O Construtor recebe apenas variáveis e não objeto
+    - Nesse caso cria-se um novo construtor que recebe o objeto
+    - Usa-se o com parenteses para fazer referencia a todos os atributos/variaveis da classe record this()
+    - Dentro do parenteses acessamos cada variavel atraves da notacao "objeto.getAtributo".
+
+```java
+public record getClienteDTO(String nomeCliente, String emailCliente, String telCliente, String enderecoCliente) {
+
+  public getClienteDTO(Cliente cliente) {
+    //Estrategia:construtor de chamada
+    this(cliente.getNomeCliente(),cliente.getEmailCliente(),cliente.getTelCliente(),cliente.getEnderecoCliente());
+
+  }
+}
+```
+*Explicação*
+ - Nesse caso cria-se um novo construtor que recebe o objeto
+ - Usa-se o this() com parenteses para fazer referencia a todos os atributos/variaveis da classe record
+ - Dentro do parenteses do this acessamos cada variavel atraves da notacao "objeto.getAtributo".
 
 </details>
+
+
+
+<details>
+<summary>Flyway:migration</summary>
+
+
+### Flyway
+
+
+A ferramenta flyway é usada para controle de versionamento de banco de dados, assim como o git é usado com código
+
+**Situações que migration é usada**
+
+migration é usado em situações que pedem alterações no banco de dados após a criação do banco, exemplo:
+ - criação e exclusão de tabelas ou colunas
+ - correção de nomes e valores
+ 
+**Passo a passo**
+ 
+ - Para utilizar uma migration é necessário importar as suas dependencias no spring initializr
+ - db.migration é a pasta onde ficará guardado o arquivo .sql com a query
+ - dentro do arquivo sql vai a query
+ - Para criar uma nova migration, basta criar um novo arquivo .sql dentro da pasta
+ - OBS:Antes de realizar uma migration,é necessário parar o servidor.
+</details>
+
+</details>
+
+</details>
+
+
+</details>
+<details>
+<summary>Bean validation e Hibernate validation</summary>
+
+### Bean Validation é uma api de validação de entrada de dados
+```
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.0.Final</version> <!-- Use a versão mais recente disponível -->
+</dependency>
+
+```
+
+**Anotações de validação**
+
+- @NotNull
+   -  usada para garantir que um campo não seja nulo
+- @Size
+   -  usada para verificar o tamanho de uma string,array e etc
+- @Min
+  - Usado para validar que um valor numérico deve ser igual ou superior a um valor estipulado
+- @Max
+  - Usado para validar que um valor numérico deve ser igual ou superior a um valor estipulado
+- @Email
+   - usada para verificar se o dado possui a formatação de um email
+- @Valid
+   - usado para ativar a validação de objetos em um método do controlador.Isso indica ao Spring que a validação deve ocorrer antes que o métdo do controlador seja executado.
+- @NotBlank
+   - Garante que o valor da string não seja nulo e que não consista apenas de espaços em branco.
+
+**Outros tipos de validação**
+
+- @NotEmpty: Garante que o valor do campo não seja nulo e que o tamanho da coleção ou da string não seja zero.
+
+- @Pattern: Permite que você defina um padrão de expressão regular que o campo deve atender.
+
+- @URL: Valida se o campo é uma URL válida.
+
+- @Future e @Past: Verificam se a data está no futuro ou no passado, respectivamente.
+
+- @Digits: Especifica o número máximo de dígitos e casas decimais permitidas em campos numéricos.
+
+- @Range: Define um intervalo de valores permitidos para campos numéricos ou datas.
+
+- @CreditCardNumber: Valida números de cartão de crédito.
+
+- @CreditCardExpiration: Valida datas de validade de cartões de crédito.
+
+- @AssertTrue e @AssertFalse: Verificam se uma expressão booleana é verdadeira ou falsa.
+
+- @Valid: Usada em campos aninhados para indicar que a validação deve ser aplicada a objetos dentro do objeto principal.
+
+#### EXEMPLO
+
+```java
+public class Usuario {
+    @NotNull
+    private String nome;
+
+    @Email
+    private String email;
+}
+
+```
+```java
+@RestController
+public class UsuarioController {
+
+    @PostMapping("/usuarios")
+    public ResponseEntity<String> cadastrarUsuario(@Valid @RequestBody Usuario usuario) {
+        // Lógica para cadastrar o usuário
+        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+    }
+}
+
+
+```
+</detalis>
+
+
+
 
 
