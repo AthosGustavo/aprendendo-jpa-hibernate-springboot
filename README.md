@@ -411,6 +411,8 @@ spring.datasource.username=nomeUsuario
 spring.datasource.password=senhaUsuario
 spring.jpa.hibernate.ddl-auto=update
 logging.level.org.springframework.web=TRACE	//Exibe logs HTTP no console
+spring.jpa.generate-ddl=true			//Gera automaticamente o schema do banco de dados com base nas entidade
+spring.jpa.show.sql=true			//Exibe o SQL de uma consulta
 ```
 
 Configurando a propriedade spring.jpa.hibernate.ddl-auto
