@@ -410,7 +410,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/nomeDoSchema
 spring.datasource.username=nomeUsuario
 spring.datasource.password=senhaUsuario
 spring.jpa.hibernate.ddl-auto=update
-
+logging.level.org.springframework.web=TRACE	//Exibe logs HTTP no console
 ```
 
 Configurando a propriedade spring.jpa.hibernate.ddl-auto
